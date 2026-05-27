@@ -1,0 +1,1677 @@
+/* ============================================================
+   BRAND TOKENS – pouze 3 barvy
+   #00A79E primary
+   #02A69E secondary
+   #FFFFFF neutral
+   ============================================================ */
+:root {
+  --primary: #00a79e;
+  --secondary: #02a69e;
+  --white: #ffffff;
+
+  /* odvozené odstíny z primárky pouze přes alpha kanál */
+  --primary-90: rgba(0, 167, 158, 0.9);
+  --primary-75: rgba(0, 167, 158, 0.75);
+  --primary-60: rgba(0, 167, 158, 0.6);
+  --primary-40: rgba(0, 167, 158, 0.4);
+  --primary-20: rgba(0, 167, 158, 0.2);
+  --primary-12: rgba(0, 167, 158, 0.12);
+  --primary-06: rgba(0, 167, 158, 0.06);
+
+  /* bílé alpha pro kontrast na teal pozadí */
+  --white-90: rgba(255, 255, 255, 0.9);
+  --white-75: rgba(255, 255, 255, 0.75);
+  --white-20: rgba(255, 255, 255, 0.2);
+  --white-12: rgba(255, 255, 255, 0.12);
+
+  --font-display: 'Mohave', 'Fustat', system-ui, sans-serif;
+  --font-body: 'Fustat', system-ui, sans-serif;
+
+  --maxw: 1280px;
+  --gutter: 56px;
+
+  --radius: 18px;
+  --radius-lg: 26px;
+}
+
+.page {
+  min-height: 100vh;
+  background: var(--white);
+  font-family: var(--font-body);
+  color: var(--primary);
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  position: relative;
+  z-index: 10;
+  background: var(--white);
+}
+.header-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 22px var(--gutter) 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 32px;
+}
+.logo img {
+  height: 72px;
+  width: auto;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.nav a {
+  color: var(--primary);
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.18s ease;
+}
+.nav a:hover {
+  color: var(--secondary);
+}
+.nav-with-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  margin-top: -10px;
+  color: var(--primary);
+}
+
+.cta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  transition: background 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
+  box-shadow: 0 6px 16px var(--primary-20);
+}
+.cta-pill:hover {
+  background: var(--secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px var(--primary-40);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  background: var(--white);
+  padding-bottom: 60px;
+}
+.hero-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 30px var(--gutter) 70px;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  align-items: center;
+  gap: 50px;
+}
+
+.hero-left {
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--secondary);
+  font-weight: 600;
+  margin: 0 0 14px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 76px;
+  line-height: 0.95;
+  letter-spacing: -1.5px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 28px;
+}
+.hero-title-accent {
+  color: var(--secondary);
+  font-weight: 700;
+}
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--primary-75);
+  max-width: 480px;
+  margin: 0 0 14px;
+}
+.hero-squiggle,
+.heart-line-svg {
+  display: block;
+  width: clamp(360px, 32vw, 420px);
+  height: auto;
+  margin: 10px 0 20px;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+}
+
+/* Skutečné kreslení tahem štětce – jeden centerline path,
+   stroke-dashoffset animace zleva doprava. Žádný fill, žádné opacity. */
+.heart-draw-path {
+  fill: none;
+  stroke: #00a79e;
+  stroke-width: 48;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawHeartStroke 1.8s ease-out 0.2s forwards;
+  will-change: stroke-dashoffset;
+}
+
+@keyframes drawHeartStroke {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-draw-path {
+    animation: none;
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+  }
+}
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.18s ease, background 0.18s ease,
+    color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 6px 16px var(--primary-20);
+}
+.btn-primary:hover {
+  background: var(--secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px var(--primary-40);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover {
+  background: var(--secondary);
+  color: var(--white);
+  border-color: var(--secondary);
+}
+
+/* ----- hero right (photo + bubble) ----- */
+.hero-right {
+  position: relative;
+  align-self: stretch;
+  min-height: 480px;
+}
+.hero-photo-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0 18px 48px var(--primary-20),
+    0 0 0 1px var(--primary-12) inset;
+}
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+.hero-photo.is-active {
+  opacity: 1;
+}
+.hero-bubble {
+  position: absolute;
+  top: 24px;
+  right: 22px;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.18;
+  padding: 14px;
+  box-shadow: 0 14px 28px var(--primary-40);
+  gap: 6px;
+}
+.hero-bubble svg {
+  margin-bottom: 2px;
+}
+
+/* wave bottom of hero – odstraněno */
+.hero-wave {
+  display: none;
+}
+
+/* ============================================================
+   BENEFITS STRIP
+   ============================================================ */
+.benefits {
+  background: var(--white);
+  padding: 18px 0 36px;
+}
+.benefits-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 6px var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.benefit-icon {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  background: var(--primary-06);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.benefit-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.25;
+}
+.benefit-text strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--primary);
+}
+.benefit-text span {
+  font-size: 13px;
+  color: var(--primary-75);
+}
+
+/* ============================================================
+   3 CARDS
+   ============================================================ */
+.cards {
+  background: var(--white);
+  padding: 6px 0 50px;
+}
+.cards-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: 0.85fr 1fr 1.6fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  box-shadow: 0 8px 28px var(--primary-12),
+    0 0 0 1px var(--primary-12) inset;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.05;
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: var(--primary);
+  letter-spacing: -0.3px;
+}
+.card-title-white {
+  color: var(--white);
+}
+.card-desc {
+  font-size: 14px;
+  color: var(--primary-75);
+  line-height: 1.5;
+  margin: 0 0 18px;
+  max-width: 240px;
+}
+.card-desc-white {
+  color: var(--white-90);
+}
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: auto;
+}
+.card-link-white {
+  color: var(--white);
+}
+.card-link:hover {
+  color: var(--secondary);
+}
+.card-link-white:hover {
+  color: var(--white);
+  opacity: 0.85;
+}
+
+/* ----- Card 1: Loyalty ----- */
+.card-loyalty {
+  background: var(--primary);
+  color: var(--white);
+  flex-direction: row;
+  gap: 14px;
+  padding: 28px 22px 28px 26px;
+  align-items: stretch;
+  box-shadow: 0 12px 32px var(--primary-40);
+}
+.card-loyalty .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-mockup {
+  position: relative;
+  width: 130px;
+  flex-shrink: 0;
+  align-self: end;
+  margin-bottom: -28px;
+  margin-right: -8px;
+}
+.phone-frame {
+  width: 130px;
+  height: 240px;
+  background: var(--white);
+  border-radius: 22px;
+  padding: 6px;
+  box-shadow: 0 14px 32px var(--primary-40),
+    0 0 0 2px var(--white-20) inset;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px 10px 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--primary-12);
+}
+.phone-notch {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 5px;
+  background: var(--primary);
+  border-radius: 999px;
+}
+.phone-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--primary);
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+.phone-points {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--primary-12);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.phone-points-coin {
+  width: 16px;
+  height: 16px;
+  background: var(--white);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+}
+.phone-pets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  margin: 4px 0 8px;
+  width: 100%;
+}
+.phone-pet {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--primary-12);
+  border: 1.5px solid var(--primary);
+}
+.phone-pet-2 {
+  background: var(--primary-20);
+}
+.phone-pet-3 {
+  background: var(--primary);
+}
+.phone-pet-4 {
+  background: var(--primary-12);
+}
+.phone-reward {
+  background: var(--primary-06);
+  border: 1px solid var(--primary-20);
+  border-radius: 10px;
+  padding: 8px 8px;
+  width: 100%;
+  font-size: 9px;
+  color: var(--primary);
+}
+.phone-reward-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.phone-reward-amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--primary);
+}
+
+.phone-badge {
+  position: absolute;
+  right: -10px;
+  bottom: 30px;
+  background: var(--white);
+  color: var(--primary);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-display);
+  box-shadow: 0 8px 20px var(--primary-40);
+  line-height: 1.05;
+  padding: 4px;
+  border: 2px solid var(--primary);
+}
+.phone-badge-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.phone-badge-amount {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 1px 0;
+}
+.phone-badge-note {
+  font-size: 7.5px;
+  color: var(--secondary);
+}
+
+/* ----- Card 2: Trhy ----- */
+.card-advice {
+  background: var(--white);
+  flex-direction: row;
+  gap: 16px;
+  padding: 26px 22px 26px 26px;
+  align-items: stretch;
+}
+.card-advice .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-desc-small {
+  font-size: 13px;
+  margin-top: 8px;
+  color: var(--primary-60);
+}
+.advice-photo {
+  width: 150px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--primary-06);
+  align-self: stretch;
+  position: relative;
+  box-shadow: 0 8px 22px var(--primary-20);
+}
+.advice-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ----- Card 3: Stores ----- */
+.card-stores {
+  background: var(--white);
+  padding: 26px;
+  gap: 16px;
+}
+.stores-head {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 16px;
+  align-items: start;
+}
+.kv-map {
+  width: 100%;
+  height: auto;
+  max-height: 130px;
+}
+.kv-map-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  fill: var(--primary);
+  font-weight: 700;
+}
+
+.stores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: auto;
+}
+.store-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 8px 8px 12px;
+  border: 1px solid var(--primary-12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.18s ease, border-color 0.18s ease,
+    transform 0.18s ease;
+}
+.store-card:hover {
+  border-color: var(--primary-40);
+  box-shadow: 0 8px 22px var(--primary-20);
+  transform: translateY(-2px);
+}
+.store-photo {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--primary-06);
+}
+.store-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.store-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 4px;
+  line-height: 1.3;
+}
+.store-info strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--primary);
+}
+.store-info span {
+  font-size: 11px;
+  color: var(--primary-60);
+}
+
+/* ============================================================
+   SMEČKA – expandable panel pod 3 kartami
+   Animace: grid-template-rows 0fr → 1fr (smooth height-auto),
+   doplněna o fade + jemné zvednutí obsahu.
+   ============================================================ */
+.smecka-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+    margin-top 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  margin-top: 0;
+}
+.smecka-wrap.is-open {
+  grid-template-rows: 1fr;
+  margin-top: 22px;
+}
+
+.smecka-panel {
+  min-height: 0;
+  overflow: hidden;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--primary-12);
+  box-shadow: 0 18px 48px var(--primary-12);
+  position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s 0.08s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.smecka-wrap.is-open .smecka-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.smecka-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--primary-20);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.25s ease, box-shadow 0.2s ease;
+}
+.smecka-close:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  transform: rotate(90deg);
+  box-shadow: 0 6px 16px var(--primary-40);
+}
+
+/* ----- hero blok panelu ----- */
+.smecka-hero {
+  padding: 60px 64px 38px;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.smecka-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-06);
+  border: 1px solid var(--primary-20);
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin-bottom: 18px;
+}
+.smecka-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1.05;
+  letter-spacing: -0.6px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 18px;
+}
+.smecka-intro {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--primary-75);
+  margin: 0 auto 26px;
+  max-width: 720px;
+}
+.smecka-intro strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.btn-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  padding: 15px 28px;
+}
+
+/* ----- 4 benefit karty ----- */
+.smecka-benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 6px 48px 44px;
+}
+.smecka-benefit {
+  background: var(--primary-06);
+  border: 1px solid var(--primary-12);
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.smecka-benefit:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-40);
+  box-shadow: 0 12px 28px var(--primary-20);
+}
+.smecka-benefit-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px var(--primary-40);
+}
+.smecka-benefit-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.2;
+}
+.smecka-benefit-text {
+  font-size: 14px;
+  color: var(--primary-75);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ----- "Proč patřit do naší smečky?" ----- */
+.smecka-section {
+  padding: 36px 64px;
+  text-align: center;
+}
+.smecka-h3 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 16px;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+.smecka-h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--secondary);
+  margin: 22px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.smecka-section p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--primary-75);
+  max-width: 720px;
+  margin: 0 auto 14px;
+}
+.smecka-why {
+  padding-bottom: 18px;
+}
+
+/* ----- statistiky (teal pruh) ----- */
+.smecka-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 32px 48px;
+  background: var(--primary);
+  margin: 8px 0;
+}
+.smecka-stat {
+  text-align: center;
+  color: var(--white);
+}
+.smecka-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1;
+  color: var(--white);
+}
+.smecka-stat span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white-75);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.smecka-how {
+  padding-top: 40px;
+  padding-bottom: 56px;
+}
+.smecka-how .btn {
+  margin-top: 20px;
+}
+
+/* ============================================================
+   TRHY – expandable panel pod 3 kartami
+   Stejná animace jako Smečka (grid-template-rows 0fr → 1fr)
+   ============================================================ */
+.trhy-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+    margin-top 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  margin-top: 0;
+}
+.trhy-wrap.is-open {
+  grid-template-rows: 1fr;
+  margin-top: 22px;
+}
+.trhy-panel {
+  min-height: 0;
+  overflow: hidden;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--primary-12);
+  box-shadow: 0 18px 48px var(--primary-12);
+  position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s 0.08s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.trhy-wrap.is-open .trhy-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----- hero ----- */
+.trhy-hero {
+  padding: 56px 64px 28px;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ----- countdown ----- */
+.trhy-countdown {
+  margin: 8px 48px 32px;
+  padding: 32px 32px 36px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+  text-align: center;
+  box-shadow: 0 16px 36px var(--primary-40);
+  position: relative;
+  overflow: hidden;
+}
+.trhy-countdown::before,
+.trhy-countdown::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: var(--white-12);
+  pointer-events: none;
+}
+.trhy-countdown::before {
+  width: 240px;
+  height: 240px;
+  top: -110px;
+  left: -80px;
+}
+.trhy-countdown::after {
+  width: 180px;
+  height: 180px;
+  bottom: -90px;
+  right: -60px;
+}
+.trhy-countdown-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--white-20);
+  padding: 8px 18px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+}
+.trhy-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.count-unit {
+  background: var(--white-20);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 18px 6px 14px;
+  border: 1px solid var(--white-20);
+}
+.count-unit strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1.5px;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+.count-unit span {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--white-75);
+}
+.trhy-tickets-btn {
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  color: var(--primary);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+.trhy-tickets-btn:hover {
+  background: var(--white);
+  color: var(--secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+/* ----- jedna lokace (Chodov / Cheb) ----- */
+.trhy-location {
+  margin: 0 48px 22px;
+  padding: 26px 28px;
+  border-radius: var(--radius);
+  background: var(--white);
+  border: 1px solid var(--primary-12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.trhy-location.is-primary {
+  background: var(--primary-06);
+  border-color: var(--primary-20);
+}
+.trhy-loc-head {
+  margin-bottom: 18px;
+}
+.trhy-loc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.trhy-loc-badge--muted {
+  background: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--primary-40);
+}
+.trhy-loc-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.2px;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.trhy-loc-place {
+  font-size: 14px;
+  color: var(--primary-75);
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+.trhy-loc-place strong {
+  color: var(--primary);
+}
+.trhy-loc-desc {
+  font-size: 14px;
+  color: var(--primary-75);
+  margin: 0;
+  line-height: 1.55;
+  max-width: 720px;
+}
+
+.trhy-loc-body {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.trhy-h4 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin: 0 0 14px;
+}
+
+/* termíny – seznam */
+.trhy-dates-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.trhy-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--primary-12);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  position: relative;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.trhy-date.is-past {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: var(--primary-40);
+}
+.trhy-date.is-next {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  padding-right: 16px;
+  box-shadow: 0 6px 18px var(--primary-40);
+}
+.trhy-date-tag {
+  background: var(--white);
+  color: var(--primary);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-left: 4px;
+  font-weight: 700;
+}
+.trhy-dates--announce {
+  padding-top: 4px;
+}
+.trhy-announce {
+  font-size: 14px;
+  color: var(--primary-75);
+  margin: 0;
+  line-height: 1.55;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px dashed var(--primary-40);
+  border-radius: 14px;
+}
+
+/* ceník */
+.trhy-prices {
+  background: var(--white);
+  border: 1px solid var(--primary-12);
+  border-radius: var(--radius);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.trhy-price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.trhy-price {
+  background: var(--primary-06);
+  border-radius: 14px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.trhy-price strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+.trhy-price span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--primary-75);
+  letter-spacing: 0.04em;
+}
+
+/* ----- "Na co se těšit" sekce ----- */
+.trhy-section {
+  padding: 28px 48px 16px;
+  text-align: center;
+}
+.trhy-cats {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto 0;
+  max-width: 1080px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: left;
+}
+.trhy-cat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--primary-06);
+  border-radius: 14px;
+  border: 1px solid var(--primary-12);
+  font-size: 14px;
+  color: var(--primary);
+  line-height: 1.35;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.trhy-cat:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-40);
+}
+.trhy-cat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+}
+
+/* ----- galerie 3×3 ----- */
+.trhy-gallery-wrap {
+  padding: 24px 48px 16px;
+  text-align: center;
+}
+.trhy-gallery {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.trhy-gallery-item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--primary-12);
+  background: var(--primary-06);
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.trhy-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.trhy-gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px var(--primary-20);
+  z-index: 2;
+}
+.trhy-gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* ----- kontakt ----- */
+.trhy-contact {
+  padding: 28px 48px 56px;
+  text-align: center;
+}
+.trhy-contact p {
+  font-size: 15px;
+  color: var(--primary-75);
+  max-width: 680px;
+  margin: 12px auto 22px;
+  line-height: 1.6;
+}
+.trhy-contact-grid {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.trhy-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: var(--white);
+  border: 1px solid var(--primary-20);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary);
+  transition: background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.2s ease;
+}
+.trhy-contact-item:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   BRAND MARQUEE
+   ============================================================ */
+.brands {
+  background: var(--white);
+  padding: 8px 0 36px;
+}
+.brands-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  height: 88px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 167, 158, 0.15);
+  background: var(--white);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 30px var(--primary-12),
+    0 2px 6px var(--primary-12);
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+
+  /* jemné maskování okrajů, aby značky decentně mizely u krajů */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+
+  display: flex;
+  align-items: center;
+}
+
+.brands-track {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: brandsMarquee 38s linear infinite;
+  will-change: transform;
+  /* HW akcelerace + zabránění subpixel skokům, aby loop nevisel */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+.brands-inner:hover .brands-track {
+  animation-play-state: paused;
+}
+
+.brand-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 200px; /* fixní šířka – obě poloviny musí být identicky široké, jinak -50% loop glitchuje */
+  height: 100%;
+}
+.brand-logo {
+  height: 52px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+  opacity: 0.9;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.brand-item:hover .brand-logo {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+@keyframes brandsMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brands-track {
+    animation-duration: 120s;
+  }
+}
+
+/* ============================================================
+   VALUES STRIP (bottom)
+   ============================================================ */
+.values {
+  position: relative;
+  background: var(--primary);
+  color: var(--white);
+  margin-top: 60px;
+  padding: 60px 0 30px;
+}
+.values-wave-top {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  line-height: 0;
+  pointer-events: none;
+  transform: translateY(-99%);
+}
+.values-wave-top svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.values-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 8px var(--gutter);
+  display: grid;
+  grid-template-columns: 130px 1fr 130px;
+  align-items: center;
+  gap: 20px;
+}
+.values-dog,
+.values-cat {
+  width: 130px;
+  height: 130px;
+}
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.value {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.value-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--white-20);
+  border: 1px solid var(--white-20);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.value-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1.3;
+}
+.value-text strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--white);
+}
+.value-text span {
+  font-size: 13px;
+  color: var(--white-75);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1180px) {
+  :root {
+    --gutter: 32px;
+  }
+  .hero-title {
+    font-size: 64px;
+  }
+  .nav {
+    gap: 22px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-right {
+    min-height: 360px;
+  }
+  .hero-squiggle {
+    width: clamp(220px, 60vw, 280px);
+  }
+  .brands-inner {
+    height: 72px;
+  }
+  .brand-item {
+    width: 150px;
+  }
+  .brand-logo {
+    height: 40px;
+    max-width: 120px;
+  }
+  /* smečka panel responsive */
+  .smecka-hero {
+    padding: 40px 28px 28px;
+  }
+  .smecka-title {
+    font-size: 30px;
+  }
+  .smecka-benefits {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 6px 28px 32px;
+  }
+  .smecka-section {
+    padding: 28px;
+  }
+  .smecka-h3 {
+    font-size: 24px;
+  }
+  .smecka-stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 26px 24px;
+    gap: 22px;
+  }
+  .smecka-stat strong {
+    font-size: 40px;
+  }
+  /* trhy panel responsive */
+  .trhy-hero {
+    padding: 40px 24px 20px;
+  }
+  .trhy-countdown {
+    margin: 8px 24px 22px;
+    padding: 24px 18px 26px;
+  }
+  .trhy-countdown-grid {
+    gap: 8px;
+  }
+  .count-unit strong {
+    font-size: 36px;
+  }
+  .trhy-location {
+    margin: 0 24px 18px;
+    padding: 20px;
+  }
+  .trhy-loc-title {
+    font-size: 22px;
+  }
+  .trhy-loc-body {
+    grid-template-columns: 1fr;
+  }
+  .trhy-dates-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trhy-section,
+  .trhy-gallery-wrap,
+  .trhy-contact {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .trhy-cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trhy-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .benefits-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cards-inner {
+    grid-template-columns: 1fr;
+  }
+  .values-inner {
+    grid-template-columns: 1fr;
+  }
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .values-dog,
+  .values-cat {
+    display: none;
+  }
+  .header-inner {
+    grid-template-columns: auto 1fr auto;
+  }
+  .nav {
+    display: none;
+  }
+}

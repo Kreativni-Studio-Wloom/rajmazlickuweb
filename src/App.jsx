@@ -54,15 +54,123 @@ import znacka10 from './assets/znacka10.png'
 import znacka11 from './assets/znacka11.png'
 import znacka12 from './assets/znacka12.png'
 import dotace1 from './assets/dotace1.png'
-import dotace2 from './assets/dotace2.png'
+import dotace2 from './assets/dotace2.jpg'
 import dotace3 from './assets/dotace3.png'
-import dotace4 from './assets/dotace4.png'
+import dotace4 from './assets/dotace4.jpg'
 import './App.css'
 
 const HERO_IMAGES = [hero1, hero2, hero3, hero4, hero5]
 const HERO_INTERVAL_MS = 10000
 
 const TRHY_GALLERY = [trhy1, trhy2, trhy3, trhy4, trhy5, trhy6, trhy7, trhy8, trhy9]
+
+/* Prodejny – data + otvírací doba. Den: 0=Ne, 1=Po, ... 6=So */
+const STORES = [
+  {
+    id: 'kv',
+    name: 'Karlovy Vary',
+    sub: 'Drahovice – Čerťák',
+    street: 'Vítězná 9',
+    psc: '360 01 Karlovy Vary',
+    img: storeKv,
+    hoursText: ['Po–Pá: 9:00–18:00', 'So: 9:00–15:00', 'Ne: zavřeno'],
+    hours: {
+      0: [],
+      1: [['09:00', '18:00']],
+      2: [['09:00', '18:00']],
+      3: [['09:00', '18:00']],
+      4: [['09:00', '18:00']],
+      5: [['09:00', '18:00']],
+      6: [['09:00', '15:00']],
+    },
+    email: 'karlovy.vary@rajmazlicku.eu',
+    phone: '+420 359 901 449',
+  },
+  {
+    id: 'chodov',
+    name: 'Chodov',
+    sub: 'Pobočka Chodov',
+    street: 'Rooseveltova 834',
+    psc: '357 35 Chodov',
+    img: storeChodov,
+    hoursText: [
+      'S obsluhou Po–Pá: 9:00–18:00',
+      'S obsluhou So: 9:00–12:00',
+      'Bez obsluhy: 24/7',
+    ],
+    hours: {
+      0: [],
+      1: [['09:00', '18:00']],
+      2: [['09:00', '18:00']],
+      3: [['09:00', '18:00']],
+      4: [['09:00', '18:00']],
+      5: [['09:00', '18:00']],
+      6: [['09:00', '12:00']],
+    },
+    alwaysOpen: true, // 24/7 self-service
+    note: 'Otevřeno 24/7 bez obsluhy. Personál k dispozici v uvedených hodinách.',
+    email: 'chodov@rajmazlicku.eu',
+    phone: '+420 359 901 449',
+  },
+  {
+    id: 'cheb',
+    name: 'Cheb',
+    sub: 'Přízemí OD PRIOR',
+    street: 'Svobody 6',
+    psc: '350 02 Cheb',
+    img: storeCheb,
+    hoursText: ['Po–Pá: 9:00–12:00, 12:30–18:00', 'So: 9:00–12:00', 'Ne: zavřeno'],
+    hours: {
+      0: [],
+      1: [['09:00', '12:00'], ['12:30', '18:00']],
+      2: [['09:00', '12:00'], ['12:30', '18:00']],
+      3: [['09:00', '12:00'], ['12:30', '18:00']],
+      4: [['09:00', '12:00'], ['12:30', '18:00']],
+      5: [['09:00', '12:00'], ['12:30', '18:00']],
+      6: [['09:00', '12:00']],
+    },
+    email: 'cheb@rajmazlicku.eu',
+    phone: '+420 359 901 449',
+  },
+]
+
+const WEEKDAY_MAP = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6,
+}
+
+function getPragueDayMinutes(date) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Prague',
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(date)
+  const wd = parts.find((p) => p.type === 'weekday')?.value
+  const hh = parts.find((p) => p.type === 'hour')?.value
+  const mm = parts.find((p) => p.type === 'minute')?.value
+  const day = WEEKDAY_MAP[wd] ?? 0
+  const minutes =
+    parseInt(hh, 10) * 60 + parseInt(mm, 10) || 0
+  return { day, minutes }
+}
+
+function isStoreOpen(store, date = new Date()) {
+  if (store.alwaysOpen) return true
+  const { day, minutes } = getPragueDayMinutes(date)
+  const intervals = store.hours[day] || []
+  return intervals.some(([from, to]) => {
+    const [fh, fm] = from.split(':').map(Number)
+    const [th, tm] = to.split(':').map(Number)
+    return minutes >= fh * 60 + fm && minutes < th * 60 + tm
+  })
+}
 
 /* Trhy Ráje mazlíčků – termíny pro Chodov 2026 (sobota 9:00). */
 const CHODOV_DATES_2026 = [
@@ -107,9 +215,19 @@ function App() {
   const [heroIndex, setHeroIndex] = useState(0)
   const [smeckaOpen, setSmeckaOpen] = useState(false)
   const [trhyOpen, setTrhyOpen] = useState(false)
+  const [activeStore, setActiveStore] = useState(null) // 'kv' | 'chodov' | 'cheb' | null
   const [now, setNow] = useState(() => Date.now())
   const smeckaRef = useRef(null)
   const trhyRef = useRef(null)
+  const storeRef = useRef(null)
+  const storesSectionRef = useRef(null)
+
+  const scrollToStores = () => {
+    storesSectionRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -147,6 +265,30 @@ function App() {
     const id = setInterval(() => setNow(Date.now()), 1000)
     return () => clearInterval(id)
   }, [trhyOpen])
+
+  // přepočet status (otevřeno/zavřeno) každou minutu, dokud je nějaká prodejna otevřená
+  useEffect(() => {
+    if (!activeStore) return
+    setNow(Date.now())
+    const id = setInterval(() => setNow(Date.now()), 60000)
+    return () => clearInterval(id)
+  }, [activeStore])
+
+  // scroll do view při otevření panelu prodejny
+  useEffect(() => {
+    if (!activeStore) return
+    const id = window.setTimeout(() => {
+      storeRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }, 60)
+    return () => window.clearTimeout(id)
+  }, [activeStore])
+
+  const toggleStore = (id) => {
+    setActiveStore((cur) => (cur === id ? null : id))
+  }
 
   // Deep-link přes URL hash:
   //   /#smecka-panel  → otevře Smečku
@@ -282,11 +424,15 @@ function App() {
             </svg>
 
             <div className="hero-buttons">
-              <button className="btn btn-primary">
+              <button type="button" className="btn btn-primary">
                 Zjistit více o nás
                 <ArrowRight size={18} />
               </button>
-              <button className="btn btn-outline">
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={scrollToStores}
+              >
                 Naše prodejny
                 <MapPin size={18} />
               </button>
@@ -460,7 +606,11 @@ function App() {
           </article>
 
           {/* Card 3: Stores */}
-          <article className="card card-stores">
+          <article
+            ref={storesSectionRef}
+            id="prodejny"
+            className="card card-stores"
+          >
             <div className="stores-head">
               <div>
                 <h3 className="card-title">Naše prodejny</h3>
@@ -477,24 +627,15 @@ function App() {
             </div>
 
             <div className="stores-grid">
-              <StoreCard
-                img={storeKv}
-                name="Karlovy Vary"
-                street="Chebská 370/81"
-                city="360 06 Karlovy Vary"
-              />
-              <StoreCard
-                img={storeChodov}
-                name="Chodov"
-                street="Nerudova 588"
-                city="357 35 Chodov"
-              />
-              <StoreCard
-                img={storeCheb}
-                name="Cheb"
-                street="Obrněné brigády 16"
-                city="350 02 Cheb"
-              />
+              {STORES.map((s) => (
+                <StoreCard
+                  key={s.id}
+                  store={s}
+                  isActive={activeStore === s.id}
+                  isOpenNow={isStoreOpen(s, new Date(now))}
+                  onClick={toggleStore}
+                />
+              ))}
             </div>
           </article>
 
@@ -851,6 +992,34 @@ function App() {
               </div>
             </div>
           </div>
+
+          {/* ===== Store detail panel ===== */}
+          <div
+            ref={storeRef}
+            id="store-panel"
+            className={`store-wrap${activeStore ? ' is-open' : ''}`}
+            aria-hidden={!activeStore}
+          >
+            <div className="store-panel">
+              <button
+                type="button"
+                className="smecka-close"
+                onClick={() => setActiveStore(null)}
+                aria-label="Zavřít detail prodejny"
+              >
+                <X size={20} strokeWidth={2.2} />
+              </button>
+              {activeStore && (
+                <StoreDetail
+                  store={STORES.find((s) => s.id === activeStore)}
+                  isOpenNow={isStoreOpen(
+                    STORES.find((s) => s.id === activeStore),
+                    new Date(now)
+                  )}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -996,18 +1165,30 @@ function BenefitItem({ icon, line1, line2 }) {
   )
 }
 
-function StoreCard({ img, name, street, city }) {
+function StoreCard({ store, isActive, isOpenNow, onClick }) {
   return (
-    <div className="store-card">
+    <button
+      type="button"
+      className={`store-card${isActive ? ' is-active' : ''}`}
+      onClick={() => onClick(store.id)}
+      aria-expanded={isActive}
+      aria-controls="store-panel"
+    >
       <div className="store-photo">
-        <img src={img} alt={name} />
+        <img src={store.img} alt={store.name} />
+        <span
+          className={`store-status-dot${
+            isOpenNow ? ' is-open' : ' is-closed'
+          }`}
+          aria-hidden="true"
+        />
       </div>
       <div className="store-info">
-        <strong>{name}</strong>
-        <span>{street}</span>
-        <span>{city}</span>
+        <strong>{store.name}</strong>
+        <span>{store.street}</span>
+        <span>{store.psc}</span>
       </div>
-    </div>
+    </button>
   )
 }
 
@@ -1112,6 +1293,66 @@ function TrhyCat({ icon, text }) {
       <span className="trhy-cat-icon">{icon}</span>
       <span>{text}</span>
     </li>
+  )
+}
+
+function StoreDetail({ store, isOpenNow }) {
+  return (
+    <div className="store-detail">
+      <div className="store-detail-photo">
+        <img src={store.img} alt={store.name} />
+        <div
+          className={`store-status${
+            isOpenNow ? ' is-open' : ' is-closed'
+          }`}
+        >
+          <span className="store-status-light" aria-hidden="true" />
+          <span>{isOpenNow ? 'Otevřeno' : 'Zavřeno'}</span>
+        </div>
+      </div>
+
+      <div className="store-detail-info">
+        <span className="smecka-eyebrow">Prodejna</span>
+        <h3 className="store-detail-title">{store.name}</h3>
+        <p className="store-detail-sub">{store.sub}</p>
+
+        <ul className="store-meta">
+          <li>
+            <MapPin size={16} />
+            <span>
+              {store.street}
+              <br />
+              {store.psc}
+            </span>
+          </li>
+          <li>
+            <Clock size={16} />
+            <div className="store-hours">
+              {store.hoursText.map((h) => (
+                <span key={h}>{h}</span>
+              ))}
+            </div>
+          </li>
+          {store.note && (
+            <li className="store-note">
+              <Sparkles size={16} />
+              <span>{store.note}</span>
+            </li>
+          )}
+        </ul>
+
+        <div className="store-contact">
+          <a className="trhy-contact-item" href={`tel:${store.phone.replace(/\s/g, '')}`}>
+            <Phone size={18} />
+            <span>{store.phone}</span>
+          </a>
+          <a className="trhy-contact-item" href={`mailto:${store.email}`}>
+            <Mail size={18} />
+            <span>{store.email}</span>
+          </a>
+        </div>
+      </div>
+    </div>
   )
 }
 

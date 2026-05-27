@@ -1474,6 +1474,100 @@
 }
 
 /* ============================================================
+   DOTACE / SPOLUFINANCOVANÉ PROJEKTY
+   ============================================================ */
+.dotace {
+  background: var(--white);
+  padding: 40px 0 64px;
+  border-top: 1px solid var(--primary-12);
+}
+.dotace-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+.dotace-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-06);
+  border: 1px solid var(--primary-20);
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin-bottom: 16px;
+}
+.dotace-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--primary);
+  margin: 0 0 28px;
+  line-height: 1.05;
+}
+.dotace-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+.dotace-item {
+  background: var(--primary-06);
+  border: 1px solid var(--primary-12);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+.dotace-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--primary-75);
+  margin: 0;
+}
+.dotace-text strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+.dotace-logos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  align-items: stretch;
+  padding: 22px 26px;
+  border-radius: var(--radius);
+  background: var(--white);
+  border: 1px solid var(--primary-12);
+  box-shadow: 0 10px 28px var(--primary-12);
+}
+.dotace-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 12px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.dotace-logo:hover,
+.dotace-logo:focus-visible {
+  background: var(--primary-06);
+  transform: translateY(-2px);
+  outline: none;
+}
+.dotace-logo img {
+  max-height: 68px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ============================================================
    VALUES STRIP (bottom)
    ============================================================ */
 .values {
@@ -1652,6 +1746,24 @@
   }
   .trhy-gallery {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* dotace responsive */
+  .dotace {
+    padding: 28px 0 44px;
+  }
+  .dotace-title {
+    font-size: 26px;
+  }
+  .dotace-items {
+    grid-template-columns: 1fr;
+  }
+  .dotace-logos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 18px;
+  }
+  .dotace-logo img {
+    max-height: 56px;
   }
   .benefits-inner {
     grid-template-columns: repeat(2, 1fr);

@@ -53,6 +53,10 @@ import znacka9 from './assets/znacka9.png'
 import znacka10 from './assets/znacka10.png'
 import znacka11 from './assets/znacka11.png'
 import znacka12 from './assets/znacka12.png'
+import dotace1 from './assets/dotace1.png'
+import dotace2 from './assets/dotace2.png'
+import dotace3 from './assets/dotace3.png'
+import dotace4 from './assets/dotace4.png'
 import './App.css'
 
 const HERO_IMAGES = [hero1, hero2, hero3, hero4, hero5]
@@ -871,6 +875,44 @@ function App() {
         </div>
       </section>
 
+      {/* ============ DOTACE / SPOLUFINANCOVANÉ PROJEKTY ============ */}
+      <section className="dotace" aria-label="Spolufinancované projekty">
+        <div className="dotace-inner">
+          <span className="dotace-eyebrow">Spolufinancované projekty</span>
+          <h2 className="dotace-title">Podpora rozvoje</h2>
+
+          <div className="dotace-items">
+            <article className="dotace-item">
+              <p className="dotace-text">
+                V roce 2025 poskytnuta dotace z rozpočtu{' '}
+                <strong>Karlovarského kraje</strong> na realizaci projektu „
+                <strong>Prodejní automat Ráj mazlíčků</strong>". Dotace byla
+                využita na pořízení těla prodejního automatu.
+              </p>
+            </article>
+            <article className="dotace-item">
+              <p className="dotace-text">
+                Projekt{' '}
+                <strong>Marketingová strategie Ráje mazlíčků</strong> byl
+                realizován za finanční podpory <strong>Evropské unie</strong>{' '}
+                prostřednictvím <strong>Národního plánu obnovy</strong> a{' '}
+                <strong>Ministerstva kultury ČR</strong>. Cílem projektu bylo
+                vytvoření marketingové strategie, nové vizuální identity a
+                optimalizace zákaznické cesty pro dlouhodobý rozvoj značky a
+                posílení její konkurenceschopnosti.
+              </p>
+            </article>
+          </div>
+
+          <div className="dotace-logos" aria-label="Loga partnerů a poskytovatelů dotací">
+            <DotaceLogo src={dotace1} alt="Karlovarský kraj" />
+            <DotaceLogo src={dotace2} alt="Evropská unie" />
+            <DotaceLogo src={dotace3} alt="Národní plán obnovy" />
+            <DotaceLogo src={dotace4} alt="Ministerstvo kultury ČR" />
+          </div>
+        </div>
+      </section>
+
       {/* ============ VALUES STRIP ============ */}
       <section className="values">
         <div className="values-wave-top" aria-hidden="true">
@@ -1070,6 +1112,21 @@ function TrhyCat({ icon, text }) {
       <span className="trhy-cat-icon">{icon}</span>
       <span>{text}</span>
     </li>
+  )
+}
+
+function DotaceLogo({ src, alt }) {
+  return (
+    <a
+      href="https://www.kr-karlovarsky.cz"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="dotace-logo"
+      title={alt}
+      aria-label={alt}
+    >
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
+    </a>
   )
 }
 

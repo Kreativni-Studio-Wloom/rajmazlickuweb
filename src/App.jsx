@@ -161,6 +161,36 @@ function getPragueDayMinutes(date) {
   return { day, minutes }
 }
 
+/* Plynulý scroll s vlastním easingem – konzistentní napříč prohlížeči
+   a hezky se hodí k pomalejší expand animaci panelů. */
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+}
+
+function smoothScrollToEl(el, { offset = 24, duration = 850 } = {}) {
+  if (!el || typeof window === 'undefined') return
+  const prefersReduced = window.matchMedia?.(
+    '(prefers-reduced-motion: reduce)'
+  ).matches
+  const startY = window.scrollY || window.pageYOffset || 0
+  const rect = el.getBoundingClientRect()
+  const targetY = Math.max(0, startY + rect.top - offset)
+  const distance = targetY - startY
+  if (prefersReduced || Math.abs(distance) < 4) {
+    window.scrollTo(0, targetY)
+    return
+  }
+  const startTime = performance.now()
+  const step = (currentTime) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const eased = easeInOutCubic(progress)
+    window.scrollTo(0, startY + distance * eased)
+    if (progress < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+
 function isStoreOpen(store, date = new Date()) {
   if (store.alwaysOpen) return true
   const { day, minutes } = getPragueDayMinutes(date)
@@ -223,10 +253,7 @@ function App() {
   const storesSectionRef = useRef(null)
 
   const scrollToStores = () => {
-    storesSectionRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
+    smoothScrollToEl(storesSectionRef.current, { offset: 32 })
   }
 
   useEffect(() => {
@@ -239,22 +266,16 @@ function App() {
   useEffect(() => {
     if (!smeckaOpen) return
     const id = window.setTimeout(() => {
-      smeckaRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }, 60)
+      smoothScrollToEl(smeckaRef.current, { offset: 32 })
+    }, 80)
     return () => window.clearTimeout(id)
   }, [smeckaOpen])
 
   useEffect(() => {
     if (!trhyOpen) return
     const id = window.setTimeout(() => {
-      trhyRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }, 60)
+      smoothScrollToEl(trhyRef.current, { offset: 32 })
+    }, 80)
     return () => window.clearTimeout(id)
   }, [trhyOpen])
 
@@ -278,11 +299,8 @@ function App() {
   useEffect(() => {
     if (!activeStore) return
     const id = window.setTimeout(() => {
-      storeRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }, 60)
+      smoothScrollToEl(storeRef.current, { offset: 32 })
+    }, 80)
     return () => window.clearTimeout(id)
   }, [activeStore])
 

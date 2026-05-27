@@ -470,10 +470,6 @@ function App() {
             </a>
           </nav>
 
-          <button className="cta-pill">
-            <MapPin size={18} />
-            <span>Najít prodejnu</span>
-          </button>
         </div>
       </header>
 

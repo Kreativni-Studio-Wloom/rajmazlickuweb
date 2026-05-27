@@ -55,9 +55,12 @@
   margin: 0 auto;
   padding: 22px var(--gutter) 16px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 32px;
+}
+.header-inner .nav {
+  justify-content: flex-end;
 }
 .logo img {
   height: 72px;
@@ -94,27 +97,6 @@
   margin-left: 2px;
   margin-top: -10px;
   color: var(--primary);
-}
-
-.cta-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--primary);
-  color: var(--white);
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 15px;
-  transition: background 0.18s ease, transform 0.18s ease,
-    box-shadow 0.18s ease;
-  box-shadow: 0 6px 16px var(--primary-20);
-}
-.cta-pill:hover {
-  background: var(--secondary);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px var(--primary-40);
 }
 
 /* ============================================================
@@ -2359,11 +2341,6 @@
     grid-template-columns: auto 1fr;
   }
   .nav {
-    display: none;
-  }
-  /* na mobilu schováme CTA "Najít prodejnu" v navbaru –
-     stejnou roli plní tlačítko "Naše prodejny" v heru */
-  .cta-pill {
     display: none;
   }
   /* hero tlačítka vedle sebe, ne pod sebou */

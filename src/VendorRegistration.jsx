@@ -330,7 +330,8 @@ export default function VendorRegistration({ logoSrc }) {
                       checked={checked}
                       onChange={() => toggleSortiment(o.id)}
                     />
-                    <span>{o.label}</span>
+                    <span className="reg-check-box" aria-hidden="true" />
+                    <span className="reg-check-label">{o.label}</span>
                   </label>
                 )
               })}

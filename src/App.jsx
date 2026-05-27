@@ -144,6 +144,43 @@ function App() {
     return () => clearInterval(id)
   }, [trhyOpen])
 
+  // Deep-link přes URL hash:
+  //   /#smecka-panel  → otevře Smečku
+  //   /#trhy-panel    → otevře Trhy
+  useEffect(() => {
+    const sync = () => {
+      const h = window.location.hash
+      if (h === '#smecka-panel') setSmeckaOpen(true)
+      else if (h === '#trhy-panel') setTrhyOpen(true)
+    }
+    sync()
+    window.addEventListener('hashchange', sync)
+    return () => window.removeEventListener('hashchange', sync)
+  }, [])
+
+  // Zpětně synchronizuje URL hash se stavem panelů, aby šel odkaz zkopírovat z adresního řádku
+  useEffect(() => {
+    const path = window.location.pathname + window.location.search
+    if (smeckaOpen) {
+      if (window.location.hash !== '#smecka-panel') {
+        window.history.replaceState(null, '', '#smecka-panel')
+      }
+    } else if (window.location.hash === '#smecka-panel') {
+      window.history.replaceState(null, '', path)
+    }
+  }, [smeckaOpen])
+
+  useEffect(() => {
+    const path = window.location.pathname + window.location.search
+    if (trhyOpen) {
+      if (window.location.hash !== '#trhy-panel') {
+        window.history.replaceState(null, '', '#trhy-panel')
+      }
+    } else if (window.location.hash === '#trhy-panel') {
+      window.history.replaceState(null, '', path)
+    }
+  }, [trhyOpen])
+
   const nextChodov = useMemo(() => {
     for (const d of CHODOV_DATES_2026) {
       const t = new Date(d.iso).getTime()

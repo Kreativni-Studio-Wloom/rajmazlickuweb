@@ -21,6 +21,9 @@ import {
   Mail,
   Ticket,
   Clock,
+  Building2,
+  AtSign,
+  PhoneCall,
 } from 'lucide-react'
 import logo from './assets/logo.svg'
 import hero1 from './assets/hero1.jpg'
@@ -57,6 +60,8 @@ import dotace1 from './assets/dotace1.png'
 import dotace2 from './assets/dotace2.jpg'
 import dotace3 from './assets/dotace3.png'
 import dotace4 from './assets/dotace4.jpg'
+import daniel from './assets/daniel.png'
+import annie from './assets/annie.jpg'
 import './App.css'
 
 const HERO_IMAGES = [hero1, hero2, hero3, hero4, hero5]
@@ -1058,6 +1063,136 @@ function App() {
                 />
               </span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ KONTAKT ============ */}
+      <section className="contact" id="kontakt" aria-label="Kontaktní informace">
+        <div className="contact-inner">
+          <div className="contact-head">
+            <span className="contact-eyebrow">Kontakt</span>
+            <h2 className="contact-title">Ozvěte se nám</h2>
+            <p className="contact-lead">
+              Rádi vám odpovíme na jakýkoliv dotaz – ať už jde o produkty,
+              objednávky nebo spolupráci.
+            </p>
+          </div>
+
+          <div className="contact-grid">
+            {/* Firma */}
+            <article className="contact-card contact-company">
+              <div className="contact-card-icon">
+                <Building2 size={20} />
+              </div>
+              <h3 className="contact-card-title">Ráj mazlíčků s.r.o.</h3>
+              <dl className="contact-meta">
+                <div>
+                  <dt>IČ</dt>
+                  <dd>10988033</dd>
+                </div>
+                <div>
+                  <dt>DIČ</dt>
+                  <dd>CZ10988033</dd>
+                </div>
+                <div>
+                  <dt>Sídlo</dt>
+                  <dd>Nejdecká 431, 357 35 Chodov</dd>
+                </div>
+                <div>
+                  <dt>Spisová značka</dt>
+                  <dd>C 40916, Krajský soud v Plzni</dd>
+                </div>
+              </dl>
+            </article>
+
+            {/* Pobočky e-maily */}
+            <article className="contact-card contact-branches">
+              <div className="contact-card-icon">
+                <AtSign size={20} />
+              </div>
+              <h3 className="contact-card-title">E-maily na pobočky</h3>
+              <ul className="contact-list">
+                <li>
+                  <a href="mailto:karlovy.vary@rajmazlicku.eu">
+                    <Mail size={16} />
+                    <span>
+                      <strong>Karlovy Vary</strong>
+                      karlovy.vary@rajmazlicku.eu
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:chodov@rajmazlicku.eu">
+                    <Mail size={16} />
+                    <span>
+                      <strong>Chodov</strong>
+                      chodov@rajmazlicku.eu
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:cheb@rajmazlicku.eu">
+                    <Mail size={16} />
+                    <span>
+                      <strong>Cheb</strong>
+                      cheb@rajmazlicku.eu
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </article>
+
+            {/* Infolinka */}
+            <article className="contact-card contact-phone">
+              <div className="contact-card-icon">
+                <PhoneCall size={20} />
+              </div>
+              <h3 className="contact-card-title">Infolinka</h3>
+              <a className="contact-phone-num" href="tel:+420359901449">
+                +420 359 901 449
+              </a>
+              <p className="contact-phone-note">
+                Po–Pá 9:00–18:00 • So 9:00–12:00
+              </p>
+            </article>
+          </div>
+
+          {/* Lidé */}
+          <div className="contact-people">
+            <article className="contact-person">
+              <div className="contact-person-photo">
+                <img src={daniel} alt="Ing. Daniel Grigar, MBA" />
+              </div>
+              <div className="contact-person-info">
+                <h3>Ing. Daniel Grigar, MBA</h3>
+                <span className="contact-person-role">Jednatel společnosti</span>
+                <a
+                  className="contact-person-mail"
+                  href="mailto:info@rajmazlicku.eu"
+                >
+                  <Mail size={16} />
+                  <span>info@rajmazlicku.eu</span>
+                </a>
+              </div>
+            </article>
+
+            <article className="contact-person">
+              <div className="contact-person-photo">
+                <img src={annie} alt="Annie La" />
+              </div>
+              <div className="contact-person-info">
+                <h3>Annie La</h3>
+                <span className="contact-person-role">Manažerka poboček</span>
+                <a
+                  className="contact-person-mail"
+                  href="mailto:info@rajmazlicku.eu"
+                >
+                  <Mail size={16} />
+                  <span>info@rajmazlicku.eu</span>
+                </a>
+              </div>
+            </article>
           </div>
         </div>
       </section>

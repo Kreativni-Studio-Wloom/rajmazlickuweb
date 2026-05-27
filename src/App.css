@@ -716,7 +716,8 @@
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.6s cubic-bezier(0.65, 0, 0.35, 1),
     margin-top 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  margin-top: 0;
+  /* zavřený panel vyžere grid gap, aby v layoutu nezabíral žádné místo */
+  margin-top: -18px;
 }
 .smecka-wrap.is-open {
   grid-template-rows: 1fr;
@@ -951,7 +952,7 @@
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.6s cubic-bezier(0.65, 0, 0.35, 1),
     margin-top 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  margin-top: 0;
+  margin-top: -18px;
 }
 .trhy-wrap.is-open {
   grid-template-rows: 1fr;
@@ -1657,6 +1658,23 @@
   }
   .cards-inner {
     grid-template-columns: 1fr;
+  }
+  /* Na mobilu se panely Smečka/Trhy ukazují hned pod svojí kartou,
+     ne až za všemi 3 kartami (interleave přes grid `order`). */
+  .card-loyalty {
+    order: 1;
+  }
+  .smecka-wrap {
+    order: 2;
+  }
+  .card-advice {
+    order: 3;
+  }
+  .trhy-wrap {
+    order: 4;
+  }
+  .card-stores {
+    order: 5;
   }
   .values-inner {
     grid-template-columns: 1fr;

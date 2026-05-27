@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Registration from './Registration.jsx'
+import VendorRegistration from './VendorRegistration.jsx'
 import {
   Heart,
   MapPin,
@@ -251,6 +253,13 @@ function App() {
   const [smeckaOpen, setSmeckaOpen] = useState(false)
   const [trhyOpen, setTrhyOpen] = useState(false)
   const [activeStore, setActiveStore] = useState(null) // 'kv' | 'chodov' | 'cheb' | null
+  const [view, setView] = useState(() => {
+    if (typeof window === 'undefined') return 'home'
+    const h = window.location.hash
+    if (h === '#registrace') return 'registrace'
+    if (h === '#registrace-prodejce') return 'registrace-prodejce'
+    return 'home'
+  })
   const [now, setNow] = useState(() => Date.now())
   const smeckaRef = useRef(null)
   const trhyRef = useRef(null)
@@ -314,18 +323,33 @@ function App() {
   }
 
   // Deep-link přes URL hash:
-  //   /#smecka-panel  → otevře Smečku
-  //   /#trhy-panel    → otevře Trhy
+  //   /#smecka-panel       → otevře Smečku
+  //   /#trhy-panel         → otevře Trhy
+  //   /#registrace         → samostatná stránka registrace zákazníka (Smečka)
+  //   /#registrace-prodejce → samostatná stránka registrace prodejce (Trhy)
   useEffect(() => {
     const sync = () => {
       const h = window.location.hash
-      if (h === '#smecka-panel') setSmeckaOpen(true)
-      else if (h === '#trhy-panel') setTrhyOpen(true)
+      if (h === '#registrace') {
+        setView('registrace')
+      } else if (h === '#registrace-prodejce') {
+        setView('registrace-prodejce')
+      } else {
+        setView('home')
+        if (h === '#smecka-panel') setSmeckaOpen(true)
+        else if (h === '#trhy-panel') setTrhyOpen(true)
+      }
     }
     sync()
     window.addEventListener('hashchange', sync)
     return () => window.removeEventListener('hashchange', sync)
   }, [])
+
+  // Při přechodu na/zpět z registrace srovnej scroll nahoru
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [view])
 
   // Zpětně synchronizuje URL hash se stavem panelů, aby šel odkaz zkopírovat z adresního řádku
   useEffect(() => {
@@ -377,6 +401,13 @@ function App() {
   const toggleTrhy = (e) => {
     e.preventDefault()
     setTrhyOpen((v) => !v)
+  }
+
+  if (view === 'registrace') {
+    return <Registration logoSrc={logo} stores={STORES} />
+  }
+  if (view === 'registrace-prodejce') {
+    return <VendorRegistration logoSrc={logo} />
   }
 
   return (
@@ -693,9 +724,12 @@ function App() {
                   Přidejte se k naší komunitě milovníků mazlíčků a objevte,
                   jaké výhody na vás čekají.
                 </p>
-                <button type="button" className="btn btn-primary btn-uppercase">
+                <a
+                  href="#registrace"
+                  className="btn btn-primary btn-uppercase"
+                >
                   Registrovat se <ArrowRight size={18} />
-                </button>
+                </a>
               </div>
 
               <div className="smecka-benefits">
@@ -756,9 +790,12 @@ function App() {
                   jedné z našich prodejen. Členství je zdarma a benefity
                   čekají jen na vás!
                 </p>
-                <button type="button" className="btn btn-primary btn-uppercase">
+                <a
+                  href="#registrace"
+                  className="btn btn-primary btn-uppercase"
+                >
                   Registrovat se <ArrowRight size={18} />
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -988,6 +1025,26 @@ function App() {
                       />
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* ===== CHCI PRODÁVAT ===== */}
+              <div className="trhy-vendor">
+                <div className="trhy-vendor-inner">
+                  <span className="smecka-eyebrow">Pro prodejce</span>
+                  <h3 className="trhy-vendor-title">Chci prodávat na trzích</h3>
+                  <p className="trhy-vendor-text">
+                    Máte vlastní chov, kvalitní produkty pro mazlíčky nebo
+                    chovatelské doplňky a chtěli byste je nabízet na našich
+                    trzích? Vyplňte krátkou přihlášku a my se vám ozveme
+                    s podrobnostmi k nejbližšímu termínu.
+                  </p>
+                  <a
+                    href="#registrace-prodejce"
+                    className="btn btn-primary btn-uppercase"
+                  >
+                    Podat přihlášku <ArrowRight size={18} />
+                  </a>
                 </div>
               </div>
 

@@ -60,7 +60,7 @@ const HERO_INTERVAL_MS = 10000
 
 const TRHY_GALLERY = [trhy1, trhy2, trhy3, trhy4, trhy5, trhy6, trhy7, trhy8, trhy9]
 
-/* AkvaTera trhy – termíny pro Chodov 2026 (sobota 9:00). */
+/* Trhy Ráje mazlíčků – termíny pro Chodov 2026 (sobota 9:00). */
 const CHODOV_DATES_2026 = [
   { iso: '2026-04-25T09:00:00+02:00', label: '25. dubna' },
   { iso: '2026-05-30T09:00:00+02:00', label: '30. května' },
@@ -228,7 +228,9 @@ function App() {
                 <Heart size={10} fill="#00A79E" stroke="#00A79E" />
               </span>
             </a>
-            <a href="#">Akvatera trhy</a>
+            <a href="#trhy-panel" onClick={toggleTrhy}>
+              Trhy Ráje mazlíčků
+            </a>
             <a href="#">Poradenství</a>
             <a href="#">Aktuality</a>
             <a href="#">Kontakt</a>
@@ -542,7 +544,7 @@ function App() {
                 <SmeckaBenefit
                   icon={<CalendarDays size={22} strokeWidth={1.8} />}
                   title="Členské události"
-                  text="Účastněte se speciálních workshopů, přednášek a dalších společných aktivit určených pro členy smečky. Včetně AkvaTera trhů v Chodově a Chebu."
+                  text="Účastněte se speciálních workshopů, přednášek a dalších společných aktivit určených pro členy smečky. Včetně Trhů Ráje mazlíčků v Chodově a Chebu."
                 />
                 <SmeckaBenefit
                   icon={<FileText size={22} strokeWidth={1.8} />}
@@ -611,13 +613,13 @@ function App() {
               </button>
 
               <div className="trhy-hero">
-                <span className="smecka-eyebrow">AkvaTera trhy</span>
+                <span className="smecka-eyebrow">Trhy Ráje mazlíčků</span>
                 <h2 className="smecka-title">
-                  Život ve vodě v Chodově a Chebu
+                  Trhy Ráje mazlíčků v Chodově a Chebu
                 </h2>
                 <p className="smecka-intro">
                   Vydejte se nahlédnout do{' '}
-                  <strong>Života ve vodě</strong> – největších
+                  <strong>Trhů Ráje mazlíčků</strong> – největších
                   akvaristicko-teraristických trhů na západě Čech. Ponoříte se
                   u nás (nejen) pod vodní hladinu a zažijte skvělé sobotní
                   dopoledne plné poznání.
@@ -662,7 +664,7 @@ function App() {
                     <MapPin size={16} />
                     <span>Chodov</span>
                   </div>
-                  <h3 className="trhy-loc-title">AkvaTera trhy Chodov</h3>
+                  <h3 className="trhy-loc-title">Trhy Ráje mazlíčků – Chodov</h3>
                   <p className="trhy-loc-place">
                     Společenský sál <strong>KASS Chodov</strong>, náměstí ČSM
                     1022 · bezbariérový boční vchod přímo k sálu
@@ -726,7 +728,7 @@ function App() {
                     <MapPin size={16} />
                     <span>Cheb</span>
                   </div>
-                  <h3 className="trhy-loc-title">AkvaTera trhy Cheb</h3>
+                  <h3 className="trhy-loc-title">Trhy Ráje mazlíčků – Cheb</h3>
                   <p className="trhy-loc-place">
                     Sál <strong>FEK ZČU</strong>, Hradební 2047/22, Cheb ·
                     bezbariérový vedlejší vchod (poznávací bod – socha)

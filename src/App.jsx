@@ -403,6 +403,34 @@ function App() {
     setTrhyOpen((v) => !v)
   }
 
+  // Navbarové akce – plynulý scroll na sekci podle id
+  const navScrollTo = (id) => (e) => {
+    e.preventDefault()
+    const el = document.getElementById(id)
+    if (el) smoothScrollToEl(el, { offset: 32 })
+  }
+
+  // "Smečka" v navbaru: otevři panel a doroluj k němu
+  const navOpenSmecka = (e) => {
+    e.preventDefault()
+    if (smeckaOpen) {
+      smoothScrollToEl(smeckaRef.current, { offset: 32 })
+    } else {
+      setSmeckaOpen(true)
+      // useEffect [smeckaOpen] sám zařídí scroll
+    }
+  }
+
+  // "Trhy" v navbaru: stejná logika jako u Smečky
+  const navOpenTrhy = (e) => {
+    e.preventDefault()
+    if (trhyOpen) {
+      smoothScrollToEl(trhyRef.current, { offset: 32 })
+    } else {
+      setTrhyOpen(true)
+    }
+  }
+
   if (view === 'registrace') {
     return <Registration logoSrc={logo} stores={STORES} />
   }
@@ -420,20 +448,26 @@ function App() {
           </a>
 
           <nav className="nav">
-            <a href="#">O nás</a>
-            <a href="#">Prodejny</a>
-            <a href="#" className="nav-with-badge">
+            <a href="#o-nas" onClick={navScrollTo('o-nas')}>O nás</a>
+            <a href="#prodejny" onClick={navScrollTo('prodejny')}>
+              Prodejny
+            </a>
+            <a
+              href="#smecka-panel"
+              className="nav-with-badge"
+              onClick={navOpenSmecka}
+            >
               Smečka
               <span className="nav-heart">
                 <Heart size={10} fill="#00A79E" stroke="#00A79E" />
               </span>
             </a>
-            <a href="#trhy-panel" onClick={toggleTrhy}>
+            <a href="#trhy-panel" onClick={navOpenTrhy}>
               Trhy Ráje mazlíčků
             </a>
-            <a href="#">Poradenství</a>
-            <a href="#">Aktuality</a>
-            <a href="#">Kontakt</a>
+            <a href="#kontakt" onClick={navScrollTo('kontakt')}>
+              Kontakt
+            </a>
           </nav>
 
           <button className="cta-pill">
@@ -444,7 +478,7 @@ function App() {
       </header>
 
       {/* ============ HERO ============ */}
-      <section className="hero">
+      <section className="hero" id="o-nas">
         <div className="hero-inner">
           <div className="hero-left">
             <p className="hero-eyebrow">Spojujeme vás a vašeho mazlíčka</p>

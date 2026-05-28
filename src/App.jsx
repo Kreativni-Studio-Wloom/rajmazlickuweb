@@ -868,7 +868,7 @@ function App() {
                     <div className="trhy-countdown-label">
                       <Clock size={16} />
                       <span>
-                        Nejbližší trh – Chodov, sobota {nextChodov.label} · 9–12 h
+                        Nejbližší trhy – Chodov, sobota {nextChodov.label} · 9–12 h
                       </span>
                     </div>
                     <div className="trhy-countdown-grid">
